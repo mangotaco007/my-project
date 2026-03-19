@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Little Ones – Mother & Baby Products</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --pink: #e8638c;
+      --pink-light: #fce4ec;
+      --teal: #4ab5a8;
+      --teal-light: #e0f5f3;
+      --yellow: #f9c74f;
+      --cream: #fef9f6;
+      --white: #ffffff;
+      --text: #2d2d2d;
+      --muted: #777;
+      --shadow: 0 4px 24px rgba(0,0,0,0.08);
+      --r: 16px;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: #fff;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-size: 1.55rem;
+      font-weight: 900;
+      color: var(--pink);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--teal); }
+    nav { display: flex; gap: 20px; }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: color .2s;
+    }
+    nav a:hover { color: var(--pink); }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #fce4ec 0%, #e8f8f5 45%, #fff8e8 100%);
+      padding: 70px 20px 60px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: clamp(1.9rem, 5vw, 3.4rem);
+      font-weight: 900;
+      line-height: 1.18;
+      margin-bottom: 14px;
+    }
+    .hero h1 em { color: var(--pink); font-style: normal; }
+    .hero p {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 580px;
+      margin: 0 auto 28px;
+    }
+    .pills {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .pill {
+      background: #fff;
+      padding: 7px 18px;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    /* ── AGE FILTER ── */
+    .filter-bar {
+      background: #fff;
+      box-shadow: 0 3px 14px rgba(0,0,0,0.06);
+      position: sticky;
+      top: 68px;
+      z-index: 190;
+    }
+    .filter-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      overflow-x: auto;
+    }
+    .filter-tabs {
+      display: flex;
+      gap: 6px;
+      padding: 12px 0;
+      white-space: nowrap;
+    }
+    .tab {
+      padding: 8px 20px;
+      border-radius: 50px;
+      border: 2px solid transparent;
+      background: var(--cream);
+      color: var(--muted);
+      font-size: 0.83rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .18s;
+      white-space: nowrap;
+    }
+    .tab:hover { background: var(--pink-light); color: var(--pink); }
+    .tab.active { background: var(--pink); color: #fff; border-color: var(--pink); }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 44px 20px 60px;
+    }
+
+    /* ── CATEGORY SECTION ── */
+    .cat-section { margin-bottom: 64px; }
+    .cat-header { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
+    .cat-icon {
+      width: 54px; height: 54px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.7rem;
+      flex-shrink: 0;
+    }
+    .cat-title { font-size: 1.5rem; font-weight: 900; color: var(--text); }
+    .cat-sub { font-size: 0.86rem; color: var(--muted); margin-top: 2px; }
+
+    /* ── PRODUCT GRID ── */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(272px, 1fr));
+      gap: 22px;
+    }
+
+    /* ── PRODUCT CARD ── */
+    .card {
+      background: #fff;
+      border-radius: var(--r);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      transition: transform .22s, box-shadow .22s;
+    }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 14px 40px rgba(0,0,0,0.12); }
+
+    .card-img-wrap {
+      width: 100%;
+      height: 210px;
+      overflow: hidden;
+      position: relative;
+      background: #f5f5f5;
+    }
+    .card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .4s;
+    }
+    .card:hover .card-img-wrap img { transform: scale(1.04); }
+    .card-img-wrap .img-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem;
+    }
+
+    .card-body {
+      padding: 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .badge {
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+    .badge-age { background: var(--pink-light); color: var(--pink); }
+    .badge-tag { background: var(--teal-light); color: var(--teal); }
+
+    .card-brand {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--teal);
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      margin-bottom: 3px;
+    }
+    .card-name {
+      font-size: 1.05rem;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    .card-desc {
+      font-size: 0.855rem;
+      color: var(--muted);
+      margin-bottom: 16px;
+      flex: 1;
+      line-height: 1.55;
+    }
+    .card-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .card-price { font-size: 1.05rem; font-weight: 900; }
+    .card-rating { font-size: 0.82rem; color: #f4a53a; font-weight: 700; }
+    .card-rating span { color: #bbb; font-size: 0.74rem; margin-left: 3px; }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background: var(--pink);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
+      transition: background .18s, transform .12s;
+    }
+    .btn:hover { background: #d4527b; transform: scale(1.02); }
+
+    /* ── EMPTY STATE ── */
+    .empty {
+      text-align: center;
+      padding: 80px 20px;
+    }
+    .empty .e-icon { font-size: 4rem; margin-bottom: 14px; }
+    .empty h3 { font-size: 1.3rem; color: #555; margin-bottom: 6px; }
+    .empty p { color: var(--muted); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #242424;
+      color: #bbb;
+      padding: 56px 20px 28px;
+    }
+    .footer-inner { max-width: 1200px; margin: 0 auto; }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 36px;
+      margin-bottom: 36px;
+    }
+    .footer-logo { font-size: 1.4rem; font-weight: 900; color: var(--pink); margin-bottom: 10px; }
+    .footer-logo span { color: var(--teal); }
+    .footer-desc { font-size: 0.84rem; line-height: 1.7; }
+    .footer-h { font-size: 0.85rem; font-weight: 800; color: #fff; margin-bottom: 14px; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .footer-links a { color: #999; text-decoration: none; font-size: 0.83rem; transition: color .2s; }
+    .footer-links a:hover { color: var(--pink); }
+    .footer-bottom {
+      border-top: 1px solid #3a3a3a;
+      padding-top: 20px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: #666;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      nav { display: none; }
+    }
+    @media (max-width: 480px) {
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo">🌸 Little<span>Ones</span></a>
+    <nav>
+      <a href="#feeding">Feeding</a>
+      <a href="#eating">Eating</a>
+      <a href="#sleeping">Sleeping</a>
+      <a href="#playing">Playing</a>
+      <a href="#traveling">Traveling</a>
+      <a href="#bathing">Bathing</a>
+      <a href="#health">Health</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Everything Baby <em>Needs & Loves</em></h1>
+  <p>Curated, parent-trusted products for every stage of your baby's journey — from newborn to toddler.</p>
+  <div class="pills">
+    <span class="pill">🏆 Top Brands</span>
+    <span class="pill">👶 Age-Categorized</span>
+    <span class="pill">💛 Parent Approved</span>
+    <span class="pill">🔒 Safety First</span>
+  </div>
+</section>
+
+<!-- AGE FILTER -->
+<div class="filter-bar">
+  <div class="filter-inner">
+    <div class="filter-tabs">
+      <button class="tab active" data-age="all">All Ages</button>
+      <button class="tab" data-age="newborn">🐣 Newborn (0–3m)</button>
+      <button class="tab" data-age="infant">🍼 Infant (3–6m)</button>
+      <button class="tab" data-age="baby">🐥 Baby (6–12m)</button>
+      <button class="tab" data-age="toddler1">🧒 Toddler (1–2yr)</button>
+      <button class="tab" data-age="toddler2">🌟 Little One (2–3yr)</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main id="main"></main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">🌸 Little<span>Ones</span></div>
+        <p class="footer-desc">Your trusted guide to the best mother and baby products — carefully curated, age-organized, and parent-approved for every milestone.</p>
+      </div>
+      <div>
+        <div class="footer-h">Categories</div>
+        <ul class="footer-links">
+          <li><a href="#feeding">Feeding & Nursing</a></li>
+          <li><a href="#eating">Eating & Mealtime</a></li>
+          <li><a href="#sleeping">Sleeping & Rest</a></li>
+          <li><a href="#playing">Play & Learning</a></li>
+          <li><a href="#traveling">Travel & On-the-Go</a></li>
+          <li><a href="#bathing">Bathing & Grooming</a></li>
+          <li><a href="#health">Health & Safety</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-h">Age Guide</div>
+        <ul class="footer-links">
+          <li><a href="#">Newborn (0–3 months)</a></li>
+          <li><a href="#">Infant (3–6 months)</a></li>
+          <li><a href="#">Baby (6–12 months)</a></li>
+          <li><a href="#">Toddler (1–2 years)</a></li>
+          <li><a href="#">Little One (2–3 years)</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-h">Company</div>
+        <ul class="footer-links">
+          <li><a href="#">Our Mission</a></li>
+          <li><a href="#">How We Select</a></li>
+          <li><a href="#">Safety Standards</a></li>
+          <li><a href="#">Parent Reviews</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 LittleOnes &mdash; Made with 💛 for parents everywhere.
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ── DATA ── */
+
+  const categories = [
+    { id:'feeding',   name:'Feeding & Nursing',     icon:'🍼', color:'#fff0e8', sub:'Bottles, breast pumps, and nursing essentials' },
+    { id:'eating',    name:'Eating & Mealtime',      icon:'🥣', color:'#fff9e6', sub:'High chairs, utensils, and tableware for little eaters' },
+    { id:'sleeping',  name:'Sleeping & Rest',        icon:'😴', color:'#eaf0fb', sub:'Safe sleep solutions, swaddles, and baby monitors' },
+    { id:'playing',   name:'Play & Learning',        icon:'🧸', color:'#edf7ed', sub:'Age-appropriate toys for development and joy' },
+    { id:'traveling', name:'Travel & On-the-Go',     icon:'🚗', color:'#f3ecfb', sub:'Strollers, car seats, and carriers for adventures together' },
+    { id:'bathing',   name:'Bathing & Grooming',     icon:'🛁', color:'#e6f6f8', sub:'Gentle bath products and grooming essentials' },
+    { id:'health',    name:'Health & Safety',        icon:'❤️‍🩹', color:'#fceaea', sub:'Monitor, protect, and care for your baby\'s wellbeing' },
+  ];
+
+  // Images use placehold.co — colored placeholders with product label
+  // In production, replace src with real product photography.
+
+  const products = [
+
+    /* ──────── FEEDING ──────── */
+    {
+      id:1, category:'feeding',
+      brand:'Philips Avent', name:'Natural Baby Bottle',
+      desc:'Breast-shaped teat promotes natural latch and easy switching between breast and bottle. Built-in anti-colic valve reduces fussing, gas, and spit-up. Available in 4oz & 9oz.',
+      price:'$15–$25', rating:4.8, reviews:'48k+',
+      ages:['newborn','infant','baby'], ageLabel:'0–12 months',
+      tag:'Anti-colic',
+      img:'https://placehold.co/400x270/ffe0eb/c0395e?text=Philips+Avent+Bottle&font=lato',
+      emoji:'🍼',
+    },
+    {
+      id:2, category:'feeding',
+      brand:"Dr. Brown's", name:"Options+ Anti-Colic Bottle",
+      desc:'Patented internal vent system clinically proven to reduce colic, spit-up, burping, and gas. Maintains vital nutrients in breast milk. Compatible with most breast pumps.',
+      price:'$20–$35', rating:4.7, reviews:'35k+',
+      ages:['newborn','infant','baby'], ageLabel:'0–12 months',
+      tag:'Clinically proven',
+      img:'https://placehold.co/400x270/ffe0eb/c0395e?text=Dr.+Browns+Bottle&font=lato',
+      emoji:'🍼',
+    },
+    {
+      id:3, category:'feeding',
+      brand:'Comotomo', name:'Baby Bottle',
+      desc:'Soft, squeezable silicone body mimics the breast for easy breast-to-bottle transition. Wide-neck design for easy cleaning; fits standard bottle brushes. Dual anti-colic vents.',
+      price:'$15–$20', rating:4.7, reviews:'22k+',
+      ages:['newborn','infant','baby'], ageLabel:'0–12 months',
+      tag:'100% silicone',
+      img:'https://placehold.co/400x270/ffe0eb/c0395e?text=Comotomo+Bottle&font=lato',
+      emoji:'🍼',
+    },
+    {
+      id:4, category:'feeding',
+      brand:'Medela', name:'Pump In Style with MaxFlow',
+      desc:'Hospital-grade performance in a portable double electric breast pump. PersonalFit Flex connectors ensure comfortable, efficient sessions. Rechargeable battery, app-connected.',
+      price:'$180–$250', rating:4.6, reviews:'18k+',
+      ages:['newborn','infant','baby'], ageLabel:'Nursing moms',
+      tag:'Hospital-grade',
+      img:'https://placehold.co/400x270/ffe0eb/c0395e?text=Medela+Pump&font=lato',
+      emoji:'🤱',
+    },
+    {
+      id:5, category:'feeding',
+      brand:'Spectra', name:'S2 Plus Electric Breast Pump',
+      desc:'Hospital-strength double electric pump with customisable suction cycles. Closed system prevents contamination. Built-in nightlight and timer. Quiet motor for discreet pumping.',
+      price:'$150–$200', rating:4.8, reviews:'31k+',
+      ages:['newborn','infant','baby'], ageLabel:'Nursing moms',
+      tag:'Quiet motor',
+      img:'https://placehold.co/400x270/ffe0eb/c0395e?text=Spectra+S2+Pump&font=lato',
+      emoji:'🤱',
+    },
+    {
+      id:6, category:'feeding',
+      brand:'Haakaa', name:'Silicone Breast Pump',
+      desc:'Manual suction pump effortlessly collects letdown while nursing on the other side. Zero cords, zero batteries — just 100% food-grade silicone. Over 1 million moms worldwide.',
+      price:'$13–$20', rating:4.5, reviews:'55k+',
+      ages:['newborn','infant'], ageLabel:'Nursing moms',
+      tag:'BPA-free',
+      img:'https://placehold.co/400x270/ffe0eb/c0395e?text=Haakaa+Pump&font=lato',
+      emoji:'🤱',
+    },
+
+    /* ──────── EATING ──────── */
+    {
+      id:7, category:'eating',
+      brand:'IKEA', name:'ANTILOP High Chair',
+      desc:'Simple, lightweight, and incredibly easy to wipe clean. Removable tray goes right in the dishwasher. Compact footprint fits anywhere. A design classic loved by millions of families.',
+      price:'$25–$30', rating:4.7, reviews:'42k+',
+      ages:['baby','toddler1','toddler2'], ageLabel:'6 months – 3 years',
+      tag:'Easy clean',
+      img:'https://placehold.co/400x270/fff3e0/b35c00?text=IKEA+ANTILOP&font=lato',
+      emoji:'🪑',
+    },
+    {
+      id:8, category:'eating',
+      brand:'Stokke', name:'Tripp Trapp High Chair',
+      desc:'Iconic Scandinavian design adjusts to grow from highchair all the way to adult chair. Keeps baby at the family table for shared mealtimes. Sold in 100+ countries since 1972.',
+      price:'$299–$379', rating:4.8, reviews:'15k+',
+      ages:['baby','toddler1','toddler2'], ageLabel:'6 months – adult',
+      tag:'Grows with child',
+      img:'https://placehold.co/400x270/fff3e0/b35c00?text=Stokke+Tripp+Trapp&font=lato',
+      emoji:'🪑',
+    },
+    {
+      id:9, category:'eating',
+      brand:'Graco', name:'Blossom 6-in-1 High Chair',
+      desc:'Converts from reclining infant feeding seat to highchair, youth chair, and more — 6 configurations total. One purchase covers years of mealtime. Dishwasher-safe tray insert.',
+      price:'$140–$200', rating:4.5, reviews:'9.8k+',
+      ages:['baby','toddler1','toddler2'], ageLabel:'6 months – 10 years',
+      tag:'6-in-1',
+      img:'https://placehold.co/400x270/fff3e0/b35c00?text=Graco+Blossom&font=lato',
+      emoji:'🪑',
+    },
+    {
+      id:10, category:'eating',
+      brand:'Munchkin', name:'Soft-Tip Infant Spoon Set (6pk)',
+      desc:'Ultra-soft tips are gentle on tender gums. Color-change safety tip turns white when food is too hot. Ergonomic handles fit baby\'s grip. Dishwasher safe, BPA-free.',
+      price:'$7–$12', rating:4.6, reviews:'28k+',
+      ages:['baby','toddler1'], ageLabel:'4–18 months',
+      tag:'Heat indicator',
+      img:'https://placehold.co/400x270/fff3e0/b35c00?text=Munchkin+Spoons&font=lato',
+      emoji:'🥄',
+    },
+
+    /* ──────── SLEEPING ──────── */
+    {
+      id:11, category:'sleeping',
+      brand:'HALO', name:'BassiNest Swivel Sleeper',
+      desc:'Swivels 360° to pull right to your bed — no bending or straining. Breathable mesh walls for visibility and ventilation. Soothing center with sounds, vibration, and nightlight.',
+      price:'$180–$300', rating:4.5, reviews:'14k+',
+      ages:['newborn','infant'], ageLabel:'0–5 months',
+      tag:'Bedside sleeper',
+      img:'https://placehold.co/400x270/e8f0fb/2c4fa0?text=HALO+BassiNest&font=lato',
+      emoji:'🛏️',
+    },
+    {
+      id:12, category:'sleeping',
+      brand:'Graco', name:'Pack \'n Play On the Go',
+      desc:'Folds in one simple motion into a carry bag for easy travel. Full-size infant bassinet and diaper changer included. Later converts to a spacious toddler play yard.',
+      price:'$60–$100', rating:4.6, reviews:'39k+',
+      ages:['newborn','infant','baby','toddler1'], ageLabel:'0–30 lbs',
+      tag:'Travel-ready',
+      img:'https://placehold.co/400x270/e8f0fb/2c4fa0?text=Graco+Pack+n+Play&font=lato',
+      emoji:'🛏️',
+    },
+    {
+      id:13, category:'sleeping',
+      brand:'HALO', name:'SleepSack Swaddle',
+      desc:'The #1 choice of hospitals — over 200 NICU partners. Wearable blanket with 3-way swaddling keeps arms in, arms out, or hands-to-face. Eliminates loose blanket risk.',
+      price:'$25–$45', rating:4.8, reviews:'67k+',
+      ages:['newborn','infant'], ageLabel:'0–6 months',
+      tag:'Hospital #1 choice',
+      img:'https://placehold.co/400x270/e8f0fb/2c4fa0?text=HALO+SleepSack&font=lato',
+      emoji:'🛌',
+    },
+    {
+      id:14, category:'sleeping',
+      brand:'Nested Bean', name:'Zen Sack Classic',
+      desc:'Lightly weighted (0.4 oz) chest panel gently simulates your touch so baby feels held. Helps babies fall and stay asleep longer. 100% breathable cotton, TOG-rated for temperature.',
+      price:'$39–$55', rating:4.4, reviews:'8.9k+',
+      ages:['newborn','infant'], ageLabel:'0–6 months',
+      tag:'Gently weighted',
+      img:'https://placehold.co/400x270/e8f0fb/2c4fa0?text=Nested+Bean+Zen&font=lato',
+      emoji:'🛌',
+    },
+    {
+      id:15, category:'sleeping',
+      brand:'Nanit', name:'Pro Smart Baby Monitor',
+      desc:'Wall-mounted camera with computer vision sleep tracking. HD night vision, two-way audio, breathing motion monitoring, and nightly sleep analytics delivered to your phone.',
+      price:'$299–$350', rating:4.7, reviews:'12k+',
+      ages:['newborn','infant','baby','toddler1'], ageLabel:'All stages',
+      tag:'Sleep analytics',
+      img:'https://placehold.co/400x270/e8f0fb/2c4fa0?text=Nanit+Pro+Monitor&font=lato',
+      emoji:'📷',
+    },
+    {
+      id:16, category:'sleeping',
+      brand:'Infant Optics', name:'DXR-8 Pro Baby Monitor',
+      desc:'Interchangeable optical lens system for any room layout. No WiFi — dedicated encrypted connection means zero hacking risk. Pan, tilt, and zoom from the parent unit.',
+      price:'$140–$180', rating:4.6, reviews:'21k+',
+      ages:['newborn','infant','baby','toddler1'], ageLabel:'All stages',
+      tag:'No WiFi needed',
+      img:'https://placehold.co/400x270/e8f0fb/2c4fa0?text=Infant+Optics+DXR-8&font=lato',
+      emoji:'📷',
+    },
+
+    /* ──────── PLAYING ──────── */
+    {
+      id:17, category:'playing',
+      brand:'Fisher-Price', name:'Deluxe Kick & Play Piano Gym',
+      desc:'5-mode musical gym grows from play mat to standalone piano. Baby activates music by kicking. Features overhead plush toys, tummy-time mirror, and crinkle pages. Folds flat.',
+      price:'$40–$60', rating:4.7, reviews:'34k+',
+      ages:['newborn','infant','baby'], ageLabel:'0–9 months',
+      tag:'Musical',
+      img:'https://placehold.co/400x270/edf6ed/1e6b2e?text=Fisher-Price+Gym&font=lato',
+      emoji:'🎹',
+    },
+    {
+      id:18, category:'playing',
+      brand:'Skip Hop', name:"Baby's View 3-Stage Activity Gym",
+      desc:'Converts through 3 play configurations as baby grows. Cloud light projector, star ceiling, and developmental activity toys. Folds flat for easy storage or travel.',
+      price:'$80–$110', rating:4.6, reviews:'11k+',
+      ages:['newborn','infant','baby'], ageLabel:'0–12 months',
+      tag:'3 stages',
+      img:'https://placehold.co/400x270/edf6ed/1e6b2e?text=Skip+Hop+Gym&font=lato',
+      emoji:'🌟',
+    },
+    {
+      id:19, category:'playing',
+      brand:'Lovevery', name:'The Play Gym',
+      desc:'Developmentally designed with 35+ activities across 4 pediatrician-reviewed play zones. Montessori-inspired materials — wood, organic cotton, crinkle, and mirror. Birth to 12 months.',
+      price:'$140–$160', rating:4.8, reviews:'9.8k+',
+      ages:['newborn','infant','baby'], ageLabel:'0–12 months',
+      tag:'Montessori',
+      img:'https://placehold.co/400x270/edf6ed/1e6b2e?text=Lovevery+Play+Gym&font=lato',
+      emoji:'🧸',
+    },
+    {
+      id:20, category:'playing',
+      brand:'Sophie la Girafe', name:'Teether & Sensory Toy',
+      desc:'The iconic French toy beloved since 1961. 100% natural rubber and food paint. Six different parts to grasp and chew — perfect for soothing sore gums anywhere on the mouth.',
+      price:'$25–$30', rating:4.7, reviews:'45k+',
+      ages:['infant','baby'], ageLabel:'3–12 months',
+      tag:'Natural rubber',
+      img:'https://placehold.co/400x270/edf6ed/1e6b2e?text=Sophie+la+Girafe&font=lato',
+      emoji:'🦒',
+    },
+    {
+      id:21, category:'playing',
+      brand:'Melissa & Doug', name:'Shape Sorting Cube',
+      desc:'Classic wooden shape sorter with 12 vibrant shapes. Develops fine motor skills, color recognition, shape awareness, and problem-solving. Solid wood, safely painted. Storage lid lifts.',
+      price:'$14–$20', rating:4.7, reviews:'31k+',
+      ages:['baby','toddler1','toddler2'], ageLabel:'1–3 years',
+      tag:'Wooden',
+      img:'https://placehold.co/400x270/edf6ed/1e6b2e?text=Shape+Sorting+Cube&font=lato',
+      emoji:'🟦',
+    },
+    {
+      id:22, category:'playing',
+      brand:'VTech', name:'Push & Ride Alphabet Train',
+      desc:'3-in-1 interactive toy: push toy, sit-and-ride, and standalone learning station. Teaches 26 letters, numbers, colors, animals, and songs. Grows with your toddler from 1–3 years.',
+      price:'$29–$45', rating:4.4, reviews:'18k+',
+      ages:['toddler1','toddler2'], ageLabel:'1–3 years',
+      tag:'3-in-1',
+      img:'https://placehold.co/400x270/edf6ed/1e6b2e?text=VTech+Train&font=lato',
+      emoji:'🚂',
+    },
+
+    /* ──────── TRAVELING ──────── */
+    {
+      id:23, category:'traveling',
+      brand:'UPPAbaby', name:'VISTA V2 Stroller',
+      desc:'The gold standard of full-size strollers. Reversible, reclining seat with UPF 50+ canopy. Expandable to twin or tandem with accessories. One-hand fold with auto-lock. Huge underseat basket.',
+      price:'$899–$1,100', rating:4.8, reviews:'16k+',
+      ages:['newborn','infant','baby','toddler1','toddler2'], ageLabel:'0–50 lbs',
+      tag:'Reversible seat',
+      img:'https://placehold.co/400x270/f0ecfb/5b2d9a?text=UPPAbaby+VISTA+V2&font=lato',
+      emoji:'🛒',
+    },
+    {
+      id:24, category:'traveling',
+      brand:'Baby Jogger', name:'City Mini GT2 Stroller',
+      desc:'All-terrain all-weather stroller with forever-air puncture-proof tires. Hand-operated front-wheel brake. Single-hand compact fold. UV 50+ expandable canopy. Folds in one swift motion.',
+      price:'$449–$549', rating:4.7, reviews:'11k+',
+      ages:['newborn','infant','baby','toddler1','toddler2'], ageLabel:'0–65 lbs',
+      tag:'All-terrain',
+      img:'https://placehold.co/400x270/f0ecfb/5b2d9a?text=City+Mini+GT2&font=lato',
+      emoji:'🛒',
+    },
+    {
+      id:25, category:'traveling',
+      brand:'Graco', name:'4Ever DLX 4-in-1 Car Seat',
+      desc:'One seat from birth to booster — rear-facing infant, forward-facing harness, highback booster, and backless booster. Fits 4 to 120 lbs. InRight LATCH for easy installation.',
+      price:'$250–$320', rating:4.7, reviews:'28k+',
+      ages:['newborn','infant','baby','toddler1','toddler2'], ageLabel:'0–10 years',
+      tag:'Birth to booster',
+      img:'https://placehold.co/400x270/f0ecfb/5b2d9a?text=Graco+4Ever+DLX&font=lato',
+      emoji:'🚗',
+    },
+    {
+      id:26, category:'traveling',
+      brand:'Chicco', name:'KeyFit 35 Infant Car Seat',
+      desc:'The #1-rated infant car seat for ease of use. SuperCinch LATCH tightener guarantees a rock-solid base installation. Fits infants from 4–35 lbs. Compatible with all major strollers.',
+      price:'$199–$249', rating:4.8, reviews:'21k+',
+      ages:['newborn','infant'], ageLabel:'4–35 lbs (0–12m)',
+      tag:'#1 rated',
+      img:'https://placehold.co/400x270/f0ecfb/5b2d9a?text=Chicco+KeyFit+35&font=lato',
+      emoji:'🚗',
+    },
+    {
+      id:27, category:'traveling',
+      brand:'Ergobaby', name:'OMNI 360 Baby Carrier',
+      desc:'All-position carrier with 4 carry positions including face-in, face-out, hip, and back. No infant insert needed from newborn. SoftFlex mesh keeps both of you cool. Hip-healthy design.',
+      price:'$148–$180', rating:4.7, reviews:'18k+',
+      ages:['newborn','infant','baby','toddler1'], ageLabel:'7–45 lbs',
+      tag:'4-position',
+      img:'https://placehold.co/400x270/f0ecfb/5b2d9a?text=Ergobaby+OMNI+360&font=lato',
+      emoji:'👶',
+    },
+    {
+      id:28, category:'traveling',
+      brand:'BabyBjörn', name:'Baby Carrier Mini',
+      desc:'Super easy snap-on carrier designed for the first months. No infant insert required. Inward and outward facing positions. Soft, breathable organic cotton. Machine washable.',
+      price:'$59–$80', rating:4.5, reviews:'22k+',
+      ages:['newborn','infant','baby'], ageLabel:'7–24 lbs',
+      tag:'Easy snap',
+      img:'https://placehold.co/400x270/f0ecfb/5b2d9a?text=BabyBjorn+Mini&font=lato',
+      emoji:'👶',
+    },
+
+    /* ──────── BATHING ──────── */
+    {
+      id:29, category:'bathing',
+      brand:'Frida Baby', name:'4-in-1 Grow-with-Me Bath Tub',
+      desc:'Transitions through four configurations from newborn recline to toddler seat. Non-slip textured base, mesh sling included, and bottom drain plug for quick emptying. Hang-dry hook built in.',
+      price:'$25–$40', rating:4.6, reviews:'17k+',
+      ages:['newborn','infant','baby','toddler1'], ageLabel:'0–2 years',
+      tag:'4-in-1',
+      img:'https://placehold.co/400x270/e6f5f7/0a6c7a?text=Frida+Bath+Tub&font=lato',
+      emoji:'🛁',
+    },
+    {
+      id:30, category:'bathing',
+      brand:'Skip Hop', name:'Moby Smart Sling 3-Stage Tub',
+      desc:'Adjustable sling moves to 3 positions as baby grows. Built-in temperature indicator changes color when water is too hot. Non-slip base, easy-drain plug, and removable toy hooks.',
+      price:'$30–$45', rating:4.4, reviews:'11k+',
+      ages:['newborn','infant','baby','toddler1'], ageLabel:'0–2 years',
+      tag:'Temp indicator',
+      img:'https://placehold.co/400x270/e6f5f7/0a6c7a?text=Skip+Hop+Bath+Tub&font=lato',
+      emoji:'🛁',
+    },
+    {
+      id:31, category:'bathing',
+      brand:'Mustela', name:'Gentle Cleansing Gel',
+      desc:'Soap-free, hypoallergenic cleanser for baby\'s hair and body. Clinically tested on newborn skin. No parabens, phthalates, or phenoxyethanol. Dermatologist approved. Subtly scented.',
+      price:'$14–$18', rating:4.8, reviews:'24k+',
+      ages:['newborn','infant','baby','toddler1','toddler2'], ageLabel:'All ages',
+      tag:'Hypoallergenic',
+      img:'https://placehold.co/400x270/e6f5f7/0a6c7a?text=Mustela+Cleanser&font=lato',
+      emoji:'🧴',
+    },
+
+    /* ──────── HEALTH ──────── */
+    {
+      id:32, category:'health',
+      brand:'Frida Baby', name:'NoseFrida Nasal Aspirator',
+      desc:'Doctor-recommended nasal aspirator used by parents worldwide. Hygienic filter ensures zero snot transfer to your mouth. Clears stuffy noses in seconds — the fastest baby congestion relief.',
+      price:'$20–$25', rating:4.6, reviews:'89k+',
+      ages:['newborn','infant','baby','toddler1'], ageLabel:'0–2 years',
+      tag:'Doctor recommended',
+      img:'https://placehold.co/400x270/fceaea/9b1c1c?text=NoseFrida&font=lato',
+      emoji:'👃',
+    },
+    {
+      id:33, category:'health',
+      brand:'Owlet', name:'Dream Sock Baby Monitor',
+      desc:'Wearable smart sock tracks your baby\'s oxygen level and heart rate overnight. Sends alerts to your phone if readings go outside normal ranges. Wireless, rechargeable, and easy to use.',
+      price:'$149–$299', rating:4.5, reviews:'14k+',
+      ages:['newborn','infant','baby'], ageLabel:'0–18 months',
+      tag:'Oxygen & heart rate',
+      img:'https://placehold.co/400x270/fceaea/9b1c1c?text=Owlet+Dream+Sock&font=lato',
+      emoji:'🧦',
+    },
+    {
+      id:34, category:'health',
+      brand:'Braun', name:'No Touch + Forehead Thermometer',
+      desc:'Clinically accurate reading in 2 seconds — no touch or minimal touch on forehead. Age Precision guidance with colour-coded fever alert. Silent mode for sleeping babies. Auto-off.',
+      price:'$30–$50', rating:4.7, reviews:'31k+',
+      ages:['newborn','infant','baby','toddler1','toddler2'], ageLabel:'All ages',
+      tag:'2-second reading',
+      img:'https://placehold.co/400x270/fceaea/9b1c1c?text=Braun+Thermometer&font=lato',
+      emoji:'🌡️',
+    },
+    {
+      id:35, category:'health',
+      brand:'Safety 1st', name:'Easy Close Extra Tall Gate',
+      desc:'Extra-tall 36" gate keeps climbing toddlers safely contained. Walk-thru door for easy adult passage. Fits openings 28–48". Available in hardware or pressure mount options. Auto-close feature.',
+      price:'$35–$55', rating:4.3, reviews:'22k+',
+      ages:['baby','toddler1','toddler2'], ageLabel:'6 months – 3 years',
+      tag:'Extra tall',
+      img:'https://placehold.co/400x270/fceaea/9b1c1c?text=Safety+1st+Gate&font=lato',
+      emoji:'🚧',
+    },
+  ];
+
+  /* ── RENDER ── */
+
+  let currentAge = 'all';
+
+  function render() {
+    const main = document.getElementById('main');
+    main.innerHTML = '';
+
+    let totalVisible = 0;
+
+    categories.forEach(cat => {
+      const visible = products.filter(p =>
+        p.category === cat.id &&
+        (currentAge === 'all' || p.ages.includes(currentAge))
+      );
+      if (!visible.length) return;
+      totalVisible += visible.length;
+
+      const sec = document.createElement('section');
+      sec.className = 'cat-section';
+      sec.id = cat.id;
+      sec.innerHTML = `
+        <div class="cat-header">
+          <div class="cat-icon" style="background:${cat.color}">${cat.icon}</div>
+          <div>
+            <div class="cat-title">${cat.name}</div>
+            <div class="cat-sub">${cat.sub}</div>
+          </div>
+        </div>
+        <div class="products-grid">
+          ${visible.map(p => cardHTML(p)).join('')}
+        </div>
+      `;
+      main.appendChild(sec);
+    });
+
+    if (!totalVisible) {
+      main.innerHTML = `
+        <div class="empty">
+          <div class="e-icon">😔</div>
+          <h3>No products for this age range</h3>
+          <p>Try selecting a different age category above.</p>
+        </div>`;
+    }
+  }
+
+  function cardHTML(p) {
+    return `
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="${p.img}" alt="${p.name} by ${p.brand}" loading="lazy"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <div class="img-placeholder" style="display:none;background:#f5f5f5;">${p.emoji}</div>
+        </div>
+        <div class="card-body">
+          <div class="card-badges">
+            <span class="badge badge-age">${p.ageLabel}</span>
+            <span class="badge badge-tag">${p.tag}</span>
+          </div>
+          <div class="card-brand">${p.brand}</div>
+          <div class="card-name">${p.name}</div>
+          <div class="card-desc">${p.desc}</div>
+          <div class="card-foot">
+            <div class="card-price">${p.price}</div>
+            <div class="card-rating">★ ${p.rating} <span>(${p.reviews})</span></div>
+          </div>
+          <button class="btn">View Product →</button>
+        </div>
+      </div>`;
+  }
+
+  /* ── FILTER TABS ── */
+  document.querySelectorAll('.tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentAge = btn.dataset.age;
+      render();
+      document.getElementById('main').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  render();
+</script>
+</body>
+</html>
